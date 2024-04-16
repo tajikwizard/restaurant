@@ -21,7 +21,7 @@ export function App() {
   return (
     <div className="app">
       <Header />
-      <div className="scroll-indicator fixed top-20 left-0 w-full bg-red-200 h-2 z-10 ">
+      <div className=" shadow-sm scroll-indicator fixed top-20 left-0 w-full bg-gray-50 h-1 z-10 ">
         <div
           className="indicator bg-blue-500 h-full"
           style={{
