@@ -93,11 +93,13 @@ const RestaurantDetails = () => {
         <img src={noimage} alt="Restaurant" className="rounded-full" />
       </div>
 
-      <div className="filter-header max-w-full p-2 border rounded-md">
-        <select value={sortOption} onChange={handleSortChange}>
-          <option value="low">Low to High</option>
-          <option value="high">High to Low</option>
-        </select>
+      <div className="flex justify-end w-full">
+        <div className="filter-header w-32 p-2 border rounded-md my-4 flex">
+          <select value={sortOption} onChange={handleSortChange}>
+            <option value="low">Low to High</option>
+            <option value="high">High to Low</option>
+          </select>
+        </div>
       </div>
 
       {sortedProducts &&
@@ -120,7 +122,8 @@ const RestaurantDetails = () => {
                         {product.name}
                       </h3>
                       <p className="text-gray-600 mb-2">
-                        Price: ${product.price}
+                        Price: cм {""}
+                        {product.price}
                       </p>
                       <button
                         onClick={() => addToCart(product)}
