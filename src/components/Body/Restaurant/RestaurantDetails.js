@@ -2,13 +2,20 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { API_URL_RESTAURANT } from "../../../utils/constants";
 import noimage from "../../../assets/noImage.png";
+import { ShimmerSimpleGallery } from "react-shimmer-effects";
+import { addToCart as addToCartAction } from "../../../store/store";
+import { useSelector, useDispatch } from "react-redux";
 
 const RestaurantDetails = () => {
+  const storeCart = useSelector((state) => state.cart);
   const { name_url } = useParams();
   const [restaurant, setRestaurant] = useState([]);
   const [error, setError] = useState("");
-  const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [sortOption, setSortOption] = useState("low");
+
+  // Get dispatch function from Redux
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setLoading(true);
@@ -35,11 +42,38 @@ const RestaurantDetails = () => {
   }, [name_url]);
 
   const addToCart = (product) => {
-    setCart([...cart, product]);
+    // Dispatch the action to add product to cart
+    dispatch(addToCartAction(product));
   };
 
+  const handleSortChange = (event) => {
+    setSortOption(event.target.value);
+  };
+
+  console.log(storeCart);
+
+  const sortedProducts = restaurant[1]?.map((category) => ({
+    ...category,
+    products: category.products.slice().sort((a, b) => {
+      if (sortOption === "low") {
+        return a.price - b.price;
+      } else {
+        return b.price - a.price;
+      }
+    }),
+  }));
+
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <ShimmerSimpleGallery
+        card
+        row={2}
+        col={4}
+        imageHeight={400}
+        caption
+        gap={20}
+      />
+    );
   }
   if (error) {
     return <div className="text-red-600">{error}</div>;
@@ -59,8 +93,15 @@ const RestaurantDetails = () => {
         <img src={noimage} alt="Restaurant" className="rounded-full" />
       </div>
 
-      {restaurant[1] &&
-        restaurant[1].map((category) => (
+      <div className="filter-header max-w-full p-2 border rounded-md">
+        <select value={sortOption} onChange={handleSortChange}>
+          <option value="low">Low to High</option>
+          <option value="high">High to Low</option>
+        </select>
+      </div>
+
+      {sortedProducts &&
+        sortedProducts.map((category) => (
           <div key={category.category_name_url} className="mb-8">
             <h2 className="text-2xl text-red-400 font-bold mb-4">
               {category.category_name}
@@ -94,21 +135,6 @@ const RestaurantDetails = () => {
             </div>
           </div>
         ))}
-
-      <div className="mt-8">
-        <h2 className="text-2xl font-bold">Cart</h2>
-        {cart.length === 0 ? (
-          <p>Your cart is empty</p>
-        ) : (
-          <ul>
-            {cart.map((item, index) => (
-              <li key={index} className="mb-2">
-                {item.name} - ${item.price}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
     </div>
   );
 };
