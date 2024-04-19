@@ -2,6 +2,10 @@
 
 Welcome to Andoz Eat! An online food ordering platform where users can explore restaurants, view restaurant details, and place orders conveniently from the comfort of their homes.
 
+### Live Demo
+
+Check out the live demo of Andoz Eat at [https://andoz-eat.netlify.app/](https://andoz-eat.netlify.app/).
+
 ### Components
 
 - **Header**: Displayed at the top of the page, providing navigation options.
@@ -33,9 +37,7 @@ Welcome to Andoz Eat! An online food ordering platform where users can explore r
 - Utilize Tailwind CSS classes for styling components.
 - Enhance user experience with React Shimmer loading effects where necessary.
 
-### Live Demo
 
-Check out the live demo of Andoz Eat at [https://andoz-eat.netlify.app/](https://andoz-eat.netlify.app/).
 
 ### Contributors
 
